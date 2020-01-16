@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimal-ui" />
+    <title>CoinThx</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style type="text/css">
+    /* Coin Section */
+    .qr-code {
+        width: 200px;
+        height: 200px;
+        margin-bottom: 24px;
+        /*background: rgba(0,0,0,0.05)*/
+    }
+
+    .qr-code canvas {
+        width: 100%;
+    }
+
+    .qr-code .icon {
+        position: absolute;
+        --icon-size: 56px;
+        background: white;
+        border-radius: 50%;
+        padding: 2px
+    }
+
+
+    .address {
+        width: 100%;
+        max-width: 360px;
+        text-align: center;
+        outline: none;
+        border: none;
+        background: rgba(0, 0, 0, 0.03);
+        padding: 8px;
+        border-radius: 6px;
+    }
+
+    .address:focus {
+        outline: none;
+        background: rgba(0, 0, 0, 0.1);
+    }
+
+    /* Toast */
+    .toast-container {
+        padding: 0 8px 24px;
+        overflow: hidden;
+        pointer-events: none;
+    }
+
+    x-toast {
+        position: absolute;
+        min-height: 48px;
+        bottom: 24px;
+        right: 24px;
+        width: 100%;
+        max-width: 344px;
+        background-color: #323232;
+        color: rgba(255, 255, 255, 0.95);
+        align-items: center;
+        box-sizing: border-box;
+        padding: 8px 24px;
+        z-index: 20;
+        transition: opacity 200ms, transform 300ms ease-in-out;
+        cursor: default;
+        line-height: 24px;
+        border-radius: 8px;
+        pointer-events: all;
+    }
+
+    x-toast:not([show]):not(:hover) {
+        opacity: 0;
+        transform: translateY(100px);
+    }
+
+    footer {
+        height: 72px;
+        justify-content: center;
+    }
+
+    section {
+        position: relative;
+        max-height: 600px;
+        max-width: 520px;
+        text-align: center;
+        align-items: center;
+    }
+
+    section:before {
+        /*content: '';*/
+        top: 0;
+        transform: translate(0, -50%);
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: white;
+        /*box-sizing: content-box;*/
+        border: 6px solid white;
+        background-size: cover;
+        background-position: center;
+        background-image: var(--avatar);
+    }
+
+    /* Hacks such that double clicking anywhere selects the address */
+    h1,
+    h3,
+    .currencies,
+    x-toast {
+        user-select: none;
+    }
+
+    /*.address::selection{
+        color: var(--primary-color);;
+        background-color: var(--primary-color);
+    }*/
+
+
+
+
+    /* Responsiveness */
+    @media (max-width: 620px),
+    (max-height: 600px) {
+
+
+
+        .currencies {
+            margin-bottom: 32px;
+        }
+
+        .currency-button {
+            width: 144px;
+        }
+
+        footer {
+            height: 32px;
+        }
+
+        section {
+            position: initial;
+        }
+
+        section:before {
+            top: 8px;
+            right: 16px;
+            width: 48px;
+            height: 48px;
+            transform: none;
+            border: 1px solid white;
+            box-sizing: border-box;
+        }
+
+        main {
+            background: white;
+        }
+
+    }
+    </style>
+</head>
+
+<body>
+    <header class="row shadow-1">
+        <a href="#" class="row logo">
+            <svg class="icon margin-right-1">
+                <use xlink:href="icons.svg#logo" />
+            </svg>
+            COIN THX</a>
+    </header>
+    <main class="center">
+        <section class="column shadow-2" id="send-bitcoin">
+            <h1>Bitcoin Address</h1>
+            <h3>Thank you for your support!</h3>
+            <div class="column grow margin-1">
+                <div class="qr-code center">
+                    <svg class="icon shadow-1">
+                        <use xlink:href="icons.svg#btc" />
+                    </svg>
+                    <div class="qr"></div>
+                </div>
+                <input class="address font-body2" readonly data-ticker="btc">
+            </div>
+            <div class="row">
+                <a class="button outlined btn-app" title="Open this address in your Bitcoin wallet app">
+                    Open in wallet
+                </a>
+            </div>
+        </section>
+    </main>
+    <footer class="row">
+    </footer>
+    <!-- Toast -->
+    <div class="toast-container full center">
+        <x-toast class="row shadow-1" id="toast">Address copied to clipboard</x-toast>
+    </div>
+    <script src="qr.js"></script>
+    <script type="text/javascript">
+    function set(profile) {
+
+
+        const selector = '#send-bitcoin'
+        const $c = document.querySelector(selector);
+        $c.querySelector('h1').textContent = `${profile.label}`;
+        $c.querySelector('h3').textContent = profile.message;
+        $c.querySelector('.address').value = profile.address;
+
+        // uri scheme
+        const uri = `bitcoin:${profile.address}?label=${profile.label}&message=${encodeURIComponent(profile.message)}`;
+        $c.querySelector('.btn-app').href = uri;
+
+        // qr code 
+        render(uri, $c.querySelector('.qr'))
+
+        // avatar image
+        const avatar = `url(${profile.avatar})`
+        document.documentElement.style.setProperty('--avatar', avatar)
+    }
+
+    function render(text, el) {
+        el.innerHTML = '';
+        QrCode.render({
+            text: text,
+            radius: 0.5, // 0.0 to 0.5
+            ecLevel: 'H', // L, M, Q, H
+            fill: '#555', // foreground color
+            background: '#fff', // color or null for transparent
+            size: 256 // in pixels
+        }, el);
+    }
+
+    document.copy = text => {
+        // A <span> contains the text to copy
+        const span = document.createElement('span');
+        span.textContent = text;
+        span.style.whiteSpace = 'pre'; // Preserve consecutive spaces and newlines
+
+        // Paint the span outside the viewport
+        span.style.position = 'absolute';
+        span.style.left = '-9999px';
+        span.style.top = '-9999px';
+
+        const win = window;
+        const selection = win.getSelection();
+        win.document.body.appendChild(span);
+
+        const range = win.document.createRange();
+        selection.removeAllRanges();
+        range.selectNode(span);
+        selection.addRange(range);
+
+        let success = false;
+        try {
+            success = win.document.execCommand('copy');
+        } catch (err) {}
+
+        selection.removeAllRanges();
+        span.remove();
+
+        return success;
+    }
+
+    function copyAddress() {
+        document.copy(this.value)
+        const $toast = document.querySelector('x-toast')
+        $toast.setAttribute('show', 1)
+        $toast.textContent = 'Address copied to clipboard'
+        setTimeout(_ => $toast.removeAttribute('show'), 3000)
+    }
+
+    Array.from(document.querySelectorAll('.address')).forEach(e => {
+        e.addEventListener('click', copyAddress)
+        e.addEventListener('submit', copyAddress)
+    })
+
+
+    function parseBitcoinUri(uri) {
+        const r = /^bitcoin:([a-zA-Z0-9]{27,34})(?:\?(.*))?$/;
+        const legalKeys = ['address', 'amount', 'value', 'message', 'label'];
+        const match = r.exec(uri);
+        if (!match) return null;
+
+        const parsed = { uri: uri }
+        if (match[2]) {
+            const queries = match[2].split('&');
+            for (let i = 0; i < queries.length; i++) {
+                const query = queries[i].split('=');
+                const key = query[0];
+                if (query.length === 2 && legalKeys.includes(key)) {
+                    parsed[key] = decodeURIComponent(query[1].replace(/\+/g, '%20'));
+                }
+            }
+        }
+
+        parsed.address = match[1];
+        return parsed;
+    }
+
+
+    const profile = {
+        label: 'Magical Crypto Friends',
+        message: 'Thank you for your support!',
+        address: '1MoUNEz6DjPxGYrWrkB2voLv2xgwci6GzT',
+    }
+
+    function parseLocation(){
+        const bitcoinUri = 'bitcoin:'+location.hash.substr(1);
+        set(parseBitcoinUri(bitcoinUri));
+    }
+
+    parseLocation()
+    window.addEventListener('hashchange', _=> parseLocation())
+    </script>
+</body>
+
+</html>
