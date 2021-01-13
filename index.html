@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimal-ui" />
-    <title>CoinThx</title>
+    <title>Parravidales Thx</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <style type="text/css">
     /* Coin Section */
@@ -167,12 +167,12 @@
             <svg class="icon margin-right-1">
                 <use xlink:href="icons.svg#logo" />
             </svg>
-            COIN THX</a>
+            PARRAVIDALES THX</a>
     </header>
     <main class="center">
         <section class="column shadow-2" id="send-bitcoin">
-            <h1>Bitcoin Address</h1>
-            <h3>Thank you for your support!</h3>
+            <h1>Dirección Bitcoin</h1>
+            <h3>¡Gracias por tu ayuda!</h3>
             <div class="column grow margin-1">
                 <div class="qr-code center">
                     <svg class="icon shadow-1">
@@ -183,8 +183,8 @@
                 <input class="address font-body2" readonly data-ticker="btc">
             </div>
             <div class="row">
-                <a class="button outlined btn-app" title="Open this address in your Bitcoin wallet app">
-                    Open in wallet
+                <a class="button outlined btn-app" title="Abre la dirección en tu monedero de Bitcoin">
+                    Abrir en el monedero
                 </a>
             </div>
         </section>
@@ -193,7 +193,7 @@
     </footer>
     <!-- Toast -->
     <div class="toast-container full center">
-        <x-toast class="row shadow-1" id="toast">Address copied to clipboard</x-toast>
+        <x-toast class="row shadow-1" id="toast">Dirección copiada al portapapeles</x-toast>
     </div>
     <script src="qr.js"></script>
     <script type="text/javascript">
@@ -265,7 +265,7 @@
         document.copy(this.value)
         const $toast = document.querySelector('x-toast')
         $toast.setAttribute('show', 1)
-        $toast.textContent = 'Address copied to clipboard'
+        $toast.textContent = 'Dirección copiada al portapapeles'
         setTimeout(_ => $toast.removeAttribute('show'), 3000)
     }
 
@@ -300,8 +300,8 @@
 
     const profile = {
         label: 'Magical Crypto Friends',
-        message: 'Thank you for your support!',
-        address: '1MoUNEz6DjPxGYrWrkB2voLv2xgwci6GzT',
+        message: '¡Gracias por tu ayuda!',
+        address: '3BmVexmErB9aW5UnGqscJKM9XM41aLxiex',
     }
 
     function parseLocation(){
