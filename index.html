@@ -207,7 +207,7 @@
         $c.querySelector('.address').value = profile.address;
 
         // uri scheme
-        const uri = `bitcoin:${profile.address}?label=${profile.label}&message=${encodeURIComponent(profile.message)}`;
+        const uri = `bitcoin:${profile.address}`;
         $c.querySelector('.btn-app').href = uri;
 
         // qr code 
