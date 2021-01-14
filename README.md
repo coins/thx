@@ -1,18 +1,20 @@
-# cointhx
+> Project forked from [coins/thx](https://github.com/coins/thx) for a custom use in my server
+
+# Coin Thanks
 Simple Bitcoin Donation Button. It provides a URL-API of the format 
 ```
-https://coins.github.io/thx/#<address>?label=<label>&message=<message>
+https://parravidales.es/app/thx/#<address>?label=<label>&message=<message>
 ```
 Which can be combined with an image button:
 
-[<img src="https://coins.github.io/thx/logo-color-large-pill-320px.png" alt="CoinThx" width="200"/>](https://coins.github.io/thx/#1K9zQ8f4iTyhKyHWmiDKt21cYX2QSDckWB?label=Coins%20Project&message=Thank%20you%20for%20your%20contribution!)
+[<img src="https://parravidales.es/app/thx/logo-color-large-pill-320px.png" alt="Donate" width="200"/>](https://parravidales.es/app/thx/#1K9zQ8f4iTyhKyHWmiDKt21cYX2QSDckWB?label=Coins%20Project&message=Thank%20you%20for%20your%20contribution!)
 
 ## Example Code
-CoinThx Url:
+Parravidales Url:
 ```
-https://coins.github.io/thx/#1K9zQ8f4iTyhKyHWmiDKt21cYX2QSDckWB?label=Coins%20Project&message=Thank%20you%20for%20your%20contribution!
+https://parravidales.es/app/thx/#1K9zQ8f4iTyhKyHWmiDKt21cYX2QSDckWB?label=Coins%20Project&message=Thank%20you%20for%20your%20contribution!
 ```
 CoinThx Markdown for button:
 ```
-[<img src="https://coins.github.io/thx/logo-color-large-pill-320px.png" alt="CoinThx" width="200"/>](https://coins.github.io/thx/#1K9zQ8f4iTyhKyHWmiDKt21cYX2QSDckWB?label=Coins%20Project&message=Thank%20you%20for%20your%20contribution!)
+[<img src="https://parravidales.es/app/thx/logo-color-large-pill-320px.png" alt="CoinThx" width="200"/>](https://parravidales.es/app/thx/#1K9zQ8f4iTyhKyHWmiDKt21cYX2QSDckWB?label=Coins%20Project&message=Thank%20you%20for%20your%20contribution!)
 ```
